@@ -2,20 +2,28 @@ import 'package:bluestackapp/foundation/theme/colors.dart';
 import 'package:flutter/material.dart';
 
 class BSSolidButton extends StatelessWidget {
-  const BSSolidButton({Key? key, required this.text}) : super(key: key);
+  const BSSolidButton(
+      {Key? key,
+      required this.text,
+      required this.onPressed,
+      required this.enabled})
+      : super(key: key);
   final String text;
+  final Function() onPressed;
+  final bool enabled;
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: enabled ? onPressed : null,
       style: ButtonStyle(
-        elevation: MaterialStateProperty.all(0),
+        elevation: MaterialStateProperty.all(2),
         shape: MaterialStateProperty.all(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5),
           ),
         ),
-        backgroundColor: MaterialStateProperty.all(AppColor.pinkColor),
+        backgroundColor: MaterialStateProperty.all(
+            enabled ? AppColor.pinkColor : Colors.grey),
         textStyle: MaterialStateProperty.all(
           const TextStyle(
             fontSize: 12.5,
@@ -25,7 +33,7 @@ class BSSolidButton extends StatelessWidget {
       ),
       child: SizedBox(
         width: MediaQuery.of(context).size.width,
-        height: 48,
+        height: 55,
         child: Center(
           child: Text(
             text,
