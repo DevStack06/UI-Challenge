@@ -1,6 +1,8 @@
 import 'package:bluestackapp/feature/home_screen/widgets/recommendation_card.dart';
 import 'package:bluestackapp/feature/home_screen/widgets/user_details.dart';
+import 'package:bluestackapp/feature/login/login.dart';
 import 'package:bluestackapp/foundation/theme/colors.dart';
+import 'package:bluestackapp/services/network_handler/network_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -21,12 +23,8 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: AppColor.scaffoldBGColor,
       body: SafeArea(
         child: Obx(() {
-          if (controller.loading.value) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
           return CustomScrollView(
+            controller: controller.controller,
             slivers: [
               SliverAppBar(
                 backgroundColor: AppColor.scaffoldBGColor,
@@ -40,6 +38,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   'Flyingwolf',
                   style: Theme.of(context).textTheme.headline5,
                 ),
+                actions: [
+                  IconButton(
+                    onPressed: onLogout,
+                    icon: const Icon(
+                      Icons.logout,
+                      color: Colors.red,
+                    ),
+                  )
+                ],
               ),
               const SliverToBoxAdapter(
                 child: UserDetails(),
@@ -66,11 +73,26 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                   childCount: controller.tournaments.length,
                 ),
+              ),
+              SliverToBoxAdapter(
+                child: controller.loading.value
+                    ? const Padding(
+                        padding: EdgeInsets.only(top: 30, bottom: 60),
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      )
+                    : Container(),
               )
             ],
           );
         }),
       ),
     );
+  }
+
+  void onLogout() {
+    NetworkHandler.removeToken();
+    Get.offAll(Login());
   }
 }

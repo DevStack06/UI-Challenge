@@ -12,7 +12,6 @@ class LandingPage extends StatefulWidget {
 }
 
 class _LandingPageState extends State<LandingPage> {
-  final NetworkHandler _networkHandler = NetworkHandler();
   Widget currentPage = const Loading();
   @override
   void initState() {
@@ -21,7 +20,7 @@ class _LandingPageState extends State<LandingPage> {
   }
 
   void checkLogin() async {
-    String? token = await _networkHandler.getToken();
+    String? token = await NetworkHandler.getToken();
     if (token != null) {
       setState(() {
         currentPage = const HomeScreen();

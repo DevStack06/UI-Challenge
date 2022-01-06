@@ -16,6 +16,7 @@ class UserDetails extends StatelessWidget {
             children: [
               const CircleAvatar(
                 radius: 50,
+                backgroundImage: NetworkImage("https://picsum.photos/200/100"),
               ),
               SizedBox(
                 width: Spacing.x2,
