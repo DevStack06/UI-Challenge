@@ -2,17 +2,25 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
 class NetworkHandler {
-  final storage = const FlutterSecureStorage();
+  static const storage = const FlutterSecureStorage();
   static final client = http.Client();
-  void storeToken() async {
+
+  /// we can put it on somewhere else
+  static void storeToken() async {
     await storage.write(key: "token", value: "abcd12345567");
   }
 
-  Future<String?> getToken() async {
+  static Future<String?> getToken() async {
     String? token = await storage.read(
       key: "token",
     );
     return token;
+  }
+
+  static void removeToken() async {
+    await storage.delete(
+      key: "token",
+    );
   }
 
   static Future<String?> get(String endpoint) async {

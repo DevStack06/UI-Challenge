@@ -6,6 +6,7 @@ import 'package:bluestackapp/foundation/bs_solid_button/bs_solid_button.dart';
 import 'package:bluestackapp/foundation/bs_text_field/bs_text_field.dart';
 import 'package:bluestackapp/foundation/theme/colors.dart';
 import 'package:bluestackapp/foundation/theme/spacing.dart';
+import 'package:get/get.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -19,7 +20,6 @@ class _LoginState extends State<Login> {
   TextEditingController passwordController = TextEditingController();
   bool enableBtn = false;
   final _formKey = GlobalKey<FormState>();
-  NetworkHandler _networkHandler = NetworkHandler();
 
   @override
   Widget build(BuildContext context) {
@@ -103,11 +103,8 @@ class _LoginState extends State<Login> {
             passwordController.text == "password123") ||
         (usernameController.text == "9876543210" &&
             passwordController.text == "password123")) {
-      _networkHandler.storeToken();
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (builder) => HomeScreen()),
-          (route) => false);
+      NetworkHandler.storeToken();
+      Get.off(const HomeScreen());
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Invalid username or passord')),
